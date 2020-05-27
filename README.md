@@ -28,6 +28,7 @@ For this, you have to start with the completed set and work backwards. You take 
 |2, 3|1|0|1|1|0|1|0|0|0|0|0|
 |2, 3, 4|1|0|1|1|1|1|1|1|0|0|0|
 |2, 3, 4, 5|1|0|1|1|1|1|1|1|1|1|**1**|
+
 array = {5}, x = 5
 
 Check the next row up. If the row has a position marked greater than x, move up another row. In the case of the example, we skip the row where 4 was added to the table. 
@@ -37,6 +38,7 @@ Check the next row up. If the row has a position marked greater than x, move up 
 |2|1|0|1|0|0|0|0|0|0|0|0|
 |2, 3|1|0|1|1|0|1|0|0|0|0|0|
 |2, 3, 4|1|0|1|1|1|1|1|**1**|0|0|0|
+
 array = {5}, x = 5
 
 Now the highest number marked with a 1 is 5. 5 is equal to 5, so 3 gets added to the set (making the array = {5, 3}). 
@@ -45,6 +47,7 @@ Now the highest number marked with a 1 is 5. 5 is equal to 5, so 3 gets added to
 |-|-|-|-|-|-|-|-|-|-|-|-|
 |2|1|0|1|0|0|0|0|0|0|0|0|
 |2, 3|1|0|1|1|0|**1**|0|0|0|0|0|
+
 array = {5, 3}, x = 2
 
 5 is then reduced by 3 and the process continues. 
@@ -52,6 +55,7 @@ array = {5, 3}, x = 2
 | |0|1|2|3|4|5|6|7|8|9|10|
 |-|-|-|-|-|-|-|-|-|-|-|-|
 |2|1|0|1|0|0|0|0|0|0|0|0|
+
 array = {5, 3, 2}, x = 0
 
 X is now 0, meaning that the program can stop the process. The final array = {5, 3, 2}.
