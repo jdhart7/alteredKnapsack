@@ -20,7 +20,7 @@ Example: set = {2, 3, 4, 5, 6} and K = 10
 The left column shows the numbers currently added in the set. The top shows the numbers that the set is currently able to add up to. The program found that the 10 position was marked with a 1, so the program quit; the set *can* add up to K.
 
 <h3>How to find the numbers that add up to K:</h3>
-For this, you have to start with the completed set and work backwards. You take the final chart, subtract the last number you added, then add the number you subtracted to a set. In the case of the example, you would take 10, subtract 5, then add 5 to a new array (we'll call this x). Instead of ten, x is now equal to 5. 
+For this, you have to start with the completed set and work backwards. You take the final chart, subtract the last number you added, then add the number you subtracted to a set. In the case of the example, you would make a variable = k (we'll call this x = 10), subtract 5 (x = 5), then add 5 to a new array (array = {5}).
 
 | |0|1|2|3|4|5|6|7|8|9|10|
 |-|-|-|-|-|-|-|-|-|-|-|-|
