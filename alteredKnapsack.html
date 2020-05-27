@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC>
+<html>
+	<head>
+		<Title>Knapsack</title>
+		
+		<meta charset = "utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		
+		<style>
+			.test {
+				transition: 0.4s;
+				font-size: 20px;
+			}
+			.navbar-header {
+				font-family: Times;
+				font-size: 30px;
+			}
+			#project {
+				transition: 0.4s;
+				border-radius: 25px;
+			}
+			#pImage {
+				padding: 10px;
+				border-radius: 15px;
+			}
+			.test:hover {
+				background-color: rgb(200, 212, 189);
+			}
+			#project:hover {
+				background-color: rgb(200, 212, 189);
+			}
+			
+		</style>
+		
+	</head>
+	
+	<body>
+	
+		<script type = "text/javascript">
+		
+			function submitIt() {
+				
+				var k = document.getElementById('kInput').value;
+				var numbers = document.getElementById('numbers').value;
+				
+				k = parseInt(k);
+				numbers = numbers.split(" ");
+				numbers.sort(function(a, b) { return a - b})
+				
+				var chart = [[],[]];	//setting chart up to be a 2D array to hold the possible additions of the inputted set
+				var set = [];			//the numbers we are testing to see if they add up to k. input by the user.
+				
+				var i = 0, j = 0, test = 0;			//i, j are both counting variables. k is the number we seeing if we can sum up to.
+			
+				for (i = 0; i < numbers.length; i++) {
+					set[i] = parseInt(numbers[i]);
+				};
+				set[set.length] = 'd';
+			
+			
+				//k = window.prompt("Enter a value for k: ");
+			
+				for (i = 0; i < k; i++) {		//2D arrays are not specifically supported in js. However, making an array of arrays are, which is essentially the same thing
+					chart[i] = [];				//this for loop makes ith element in the 'chart' array another array for every number up to k.
+				};
+			
+				chart[0][0] = 1;		//sets the first number in the first array = 1. The zero position has to be 1 so the incoming number can be added to it to get itself
+			
+				for (i = 1; i <= k; i++) {		//sets the all the other numbers in the first array = 0.
+					chart[0][i] = 0;
+				};
+			
+				temp = set[0];
+				chart[0][temp] = 1;		//sets the first number in the inputted set = to 1 in the chart.
+			
+				//this list of loops sets every array after the first one = to the one previous, then adds the next number in set to it.
+				for (i = 1; i < set.length; i++) {		//while i isn't the first element and less than the amount of numbers in the set.
+					for (j = 0; j <= k; j++) {			//while the current position in chart is less than the number being added up to.
+						if (chart[i - 1][j] == 1) {		//if the previous array has a 1 in this spot...
+							chart[i][j] = 1;			//set this spot to 1 also
+							temp = set[i];				
+							chart[i][temp] = 1;			//then the spot with the set number being added to the array
+							temp = set[i] + j;
+							chart[i][temp] = 1;			//then set the number being added to the array plus the number in the current spot.
+							test = chart[i][temp];
+						} else if (chart[i][j] !== 1) {		//if the number hasn't already been changed to a 0, do it.
+							chart[i][j] = 0;			//if the spot we're currently in isn't a 1, make it a zero
+						} else {
+							//document.writeln("<br />already 1");	//for debugging.
+						};
+					};
+				};
+			
+				i = 0;
+				set2 = [];		//this set is to hold all the numbers that will add up to give us k
+				len = set.length - 2;			//this is a variable to determine chart position and the other array when needed
+			
+			
+			
+			/*These next few statements find a set of numbers that will add together to be k (if possible). It starts by first determining if the solution is possible by
+			checking the last digit in the 2D array (chart). If the number is 1, a solution is possible. If it's not possible, the program will say so. When the 
+			solution is possible, it continues to find the solution by checking to see the element in the previous array a 1 too. If it is, this number isn't in the
+			solution. If it isn't, it adds the number to set2 (the solution set), then subtracts that number from k (so we're looking for the new k in the solution chart),
+			then subtracts len (to look in the previous array in chart). It continues to do this until k is 0, this indicating that the solution set is found.
+			*/
+			
+				if (chart[set.length - 1][k] == 1) {		//if the last element in the last array is 1, a solution is possible.
+					while (k !== 0) {		//while the elements in the solution array are not adding to be k yet.
+						if (len == 0) {		//if it's the last element, go ahead and add it to the set. We know the numbers will add up at this point, but next 'if' statement
+							set2[i] = set[len];			//sets the ith element to be the first entry the user entered				// ^ won't work if len < 0, so it throws an error
+							k = k - set2[i];		//sets k = k - the number we just added. This is so we know when k = 0 and we can stop adding numbers to the set
+						} else if (chart[len][k] == 1 && chart[len - 1][k] !== 1) {			//determining this is the last instance of the sum to verify it's in the solution
+							set2[i] = set[len];										//puts the element added in this row into the solution set.
+							k = k - set2[i];			//subtracts the element just added from k because we know that no entries to that point are required
+							i++;
+							len = len - 1;		//incriment i so we're adding to the next in the array and decriment len so we're looking in the previous row.
+						} else {
+							len = len - 1;		//the only other case is if the 1 we're currently looking at isn't the last one, meaning that the element isn't required.
+						};						//^decriment len to move to the previous row
+					};
+	
+					k = document.getElementById('kInput').value;
+					document.getElementById('knapsackForm').reset();
+					output.innerHTML = "<div class = 'well'><p><span class = 'label label-success'>Success</span></p>" +
+										"<h4>The set of numbers: " +numbers+ " &nbsp; &nbsp; &nbsp; K: " +k+ "</h4>" +
+										"<h2>Numbers that add up to K: " +set2+ "</h2></div>";
+								
+				} else {		//when there's no solution...
+					output.innerHTML = "<div class = 'well'><p><span class = 'label label-danger'>Failed</span></p>" +
+										"<h4>The set of numbers: " +numbers+ "&nbsp; &nbsp; &nbsp; K: " +k+ "</h4>" +
+										"<h2>The Numbers in the set will not add up to be " +k+ "</h2></div>";
+				};
+			};
+			
+		</script>
+		
+		<br /><br />
+		
+		<div class = "container">
+			<div class = "jumbotron">
+				
+				<form id = "knapsackForm">
+					
+					<h2>Knapsack Problem <small>Enter Numbers Below...</small></h2>
+					<br />
+					
+					<div class = "form-group">
+						<label for "kInput">Enter a K</label>
+						<input type = "text" class = "form-control" id = "kInput" placeholder = "Please enter a k..." />
+					</div>
+				
+					<div class = "form-group">
+						<label for "numbers">Enter The Set of Numbers</label>
+						<textarea class = "form-control" id = "numbers" placeholder = "Enter a set of numbers (separated by spaces)..."></textarea>
+					</div>
+				
+					<button type = "button" class = "btn btn-success" id = "myBtn" onclick = "submitIt()">Submit</button>
+				
+				</form>
+				
+				<br />
+				<h4>Info: </h4>
+				<h5>This program takes a set of numbers and determines whether they will add up to be a specific number, k.</h5>
+				<h7 style = "text-align: right;"><i style = "text-align: right;">Need an explanation? Find it <a href = "https://github.com/jdhart7/alteredKnapsack/blob/master/README.md">Here</a>.</i></h7>
+				
+			</div>
+		</div>
+		
+		<div class = "container">
+			<h3>Results:</h3>
+			<div id = "output">
+			</div>
+		</div>
+		
+		<br /><br />
+		<footer>
+			<hr>
+			<h4 style = "text-align: center;">Created by John DeHart in 2020 &nbsp; &nbsp; Website: <a href = "dehart.dev">dehart.dev</a>
+				&nbsp; &nbsp; Email me at john@dehart.dev</h4>
+		</footer>
+		
+	</body>
+</html>
