@@ -7,6 +7,7 @@ The assignment was to create a program that solved the knapsack problem without 
 <h3>The Solution:</h3>
 The solution is to create a 2D array with a height equal to the set's length and a width of K + 1. Mark (0, 0) with a 1. Then add the first element of the set to 0 and place a 1 in the sum. Copy the first row into the second, add the row's "set" number to all the positions with a 1. Copy that row into the next until you have done this for the entire set. If if the "K" position is marked, the program can stop as this indicates that the set does add up to K. A completed example is shown below:
   
+
 Example: set = {2, 3, 4, 5, 6} and K = 10
   
 | |0|1|2|3|4|5|6|7|8|9|10|
